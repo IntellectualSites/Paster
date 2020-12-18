@@ -10,7 +10,7 @@ configure<JavaPluginConvention> {
 }
 
 group = "com.intellectualsites.paster"
-version = "1.0"
+version = "1.0-SNAPSHOT"
 
 dependencies {
     compileOnlyApi("com.google.code.gson:gson:2.8.0")
@@ -66,6 +66,7 @@ tasks {
 }
 
 java {
+    withSourcesJar()
     withJavadocJar()
 }
 

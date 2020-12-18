@@ -109,9 +109,7 @@ public class IncendoPaster {
 
         if (extraFiles != null) {
             for (File f : extraFiles) {
-                String name = f.getName();
-                boolean cleanIPS = name.endsWith(".log") || name.endsWith(".txt") || !name.contains(".");
-                incendoPaster.addFile(new PasteFile(name, readFile(f, cleanIPS)));
+                incendoPaster.addFile(f);
             }
         }
 
@@ -161,8 +159,14 @@ public class IncendoPaster {
         return Collections.unmodifiableCollection(this.files);
     }
 
+    public void addFile(File file) throws IOException {
+        String name = file.getName();
+        boolean cleanIPS = name.endsWith(".log") || name.endsWith(".txt") || !name.contains(".");
+        addFile(new PasteFile(name, readFile(file, cleanIPS)));
+    }
+
     /**
-     * Add a file to the paster
+     * Add a file to the paster. Bypasses "checks" and IP cleansing.
      *
      * @param file File to paste
      */
