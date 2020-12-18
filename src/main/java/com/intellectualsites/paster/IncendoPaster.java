@@ -101,7 +101,7 @@ public class IncendoPaster {
             if (Files.size(logFile.toPath()) > 14_000_000) {
                 file = "too big :(";
             } else {
-                file = readFile(logFile);
+                file = readFile(logFile, true);
             }
             incendoPaster.addFile(new IncendoPaster.PasteFile("latest.log", file));
         } catch (IOException ignored) {
@@ -109,7 +109,9 @@ public class IncendoPaster {
 
         if (extraFiles != null) {
             for (File f : extraFiles) {
-                incendoPaster.addFile(new PasteFile(f.getName(), readFile(f)));
+                String name = f.getName();
+                boolean cleanIPS = name.endsWith(".log") || name.endsWith(".txt") || !name.contains(".");
+                incendoPaster.addFile(new PasteFile(name, readFile(f, cleanIPS)));
             }
         }
 
@@ -129,7 +131,7 @@ public class IncendoPaster {
         }
     }
 
-    private static String readFile(final File file) throws IOException {
+    private static String readFile(final File file, boolean cleanIPs) throws IOException {
         final StringBuilder content = new StringBuilder();
         final List<String> lines = new ArrayList<>();
         try (final BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -141,7 +143,13 @@ public class IncendoPaster {
         for (int i = Math.max(0, lines.size() - 1000); i < lines.size(); i++) {
             content.append(lines.get(i)).append("\n");
         }
-        return content.toString();
+        String contentStr = content.toString();
+        if (cleanIPs) {
+            contentStr = contentStr.replaceAll(
+                "\\b(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\.(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\.(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\.(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\b",
+                "REMOVED IP");
+        }
+        return contentStr;
     }
 
     /**
