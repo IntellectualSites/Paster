@@ -9,7 +9,7 @@ configure<JavaPluginConvention> {
     targetCompatibility = sourceCompatibility
 }
 
-group = "com.plotsquared"
+group = "com.intellectualsites"
 version = "1.0"
 
 dependencies {
@@ -96,9 +96,9 @@ publishing {
                 }
 
                 scm {
-                    url.set("https://github.com/IntellectualSites/PlotSquared")
-                    connection.set("scm:https://IntellectualSites@github.com/IntellectualSites/PlotSquared.git")
-                    developerConnection.set("scm:git://github.com/IntellectualSites/PlotSquared.git")
+                    url.set("https://github.com/IntellectualSites/Paster")
+                    connection.set("scm:https://IntellectualSites@github.com/IntellectualSites/Paster.git")
+                    developerConnection.set("scm:git://github.com/IntellectualSites/Paster.git")
                 }
             }
         }
