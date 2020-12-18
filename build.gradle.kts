@@ -9,7 +9,7 @@ configure<JavaPluginConvention> {
     targetCompatibility = sourceCompatibility
 }
 
-group = "com.intellectualsites"
+group = "com.intellectualsites.paster"
 version = "1.0"
 
 dependencies {
