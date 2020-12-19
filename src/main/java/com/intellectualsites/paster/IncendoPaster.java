@@ -65,6 +65,19 @@ public class IncendoPaster {
      * @return URL of the paste
      * @throws IOException if upload failed
      */
+    public static String debugPaste(@Nonnull File logFile, @Nullable String debugInfo, @Nullable File... extraFiles) throws IOException {
+        return debugPaste(logFile, debugInfo, extraFiles == null ? null : Arrays.asList(extraFiles));
+    }
+
+    /**
+     * Automatically create a new debugpaste and upload it. Returns the URL.
+     *
+     * @param logFile    the log file
+     * @param debugInfo  extra implementation-specific information
+     * @param extraFiles extra files to be added to the paste
+     * @return URL of the paste
+     * @throws IOException if upload failed
+     */
     public static String debugPaste(@Nonnull File logFile, @Nullable String debugInfo, @Nullable List<File> extraFiles)
         throws IOException {
         final IncendoPaster incendoPaster = new IncendoPaster("fastasyncworldedit");
