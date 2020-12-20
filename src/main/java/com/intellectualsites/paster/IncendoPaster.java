@@ -104,15 +104,13 @@ public class IncendoPaster {
         b.append("Operating System: '").append(System.getProperty("os.name")).append("'\n");
         b.append("OS Version: ").append(System.getProperty("os.version")).append('\n');
         b.append("OS Arch: ").append(System.getProperty("os.arch")).append('\n');
-        b.append("# Okay :D Great. You are now ready to create your bug report!");
-        b.append("\n# You can do so at https://github.com/IntellectualSites/FastAsyncWorldEdit/issues");
-        b.append("\n# or via our Discord at https://discord.gg/KxkjDVg");
+        b.append("# Okay :D Great. The paste has been created successfully.");
         incendoPaster.addFile(new IncendoPaster.PasteFile("information", b.toString()));
 
         try {
             final String file;
             if (Files.size(logFile.toPath()) > 14_000_000) {
-                file = "too big :(";
+                file = "latest.log is larger than 14 MB. Not uploading.";
             } else {
                 file = readFile(logFile, true);
             }
@@ -158,7 +156,7 @@ public class IncendoPaster {
         if (cleanIPs) {
             contentStr = contentStr.replaceAll(
                 "\\b(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\.(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\.(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\.(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\b",
-                "REMOVED IP");
+                "*");
         }
         return contentStr;
     }
