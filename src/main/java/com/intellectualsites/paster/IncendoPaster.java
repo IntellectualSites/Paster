@@ -171,9 +171,13 @@ public class IncendoPaster {
     }
 
     public void addFile(File file) throws IOException {
-        String name = file.getName();
-        boolean cleanIPS = name.endsWith(".log") || name.endsWith(".txt") || !name.contains(".");
-        addFile(new PasteFile(name, readFile(file, cleanIPS)));
+        addFile(file, null);
+    }
+
+    public void addFile(File file, @Nullable String name) throws IOException {
+        String fileName =  name != null ? name : file.getName();
+        boolean cleanIPS = fileName.endsWith(".log") || fileName.endsWith(".txt") || !fileName.contains(".");
+        addFile(new PasteFile(fileName, readFile(file, cleanIPS)));
     }
 
     /**

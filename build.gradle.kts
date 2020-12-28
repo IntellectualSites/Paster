@@ -10,7 +10,7 @@ configure<JavaPluginConvention> {
 }
 
 group = "com.intellectualsites.paster"
-version = "1.0.1-SNAPSHOT"
+version = "1.0.2-SNAPSHOT"
 
 dependencies {
     compileOnlyApi("com.google.code.gson:gson:2.8.0")
