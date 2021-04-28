@@ -79,7 +79,7 @@ publishing {
                         name.set("Alexander Söderberg")
                     }
                     developer {
-                        id.set("N0tMyFaultOG")
+                        id.set("NotMyFault")
                         name.set("NotMyFault")
                     }
                     developer {
