@@ -7,14 +7,13 @@ Used in the projects [FastAsyncWorldEdit](https://github.com/IntellectualSites/F
 ```kotlin
 repositories {
     maven {
-        name = "IntellectualSites' Snapshots"
-        url = uri("https://mvn.intellectualsites.com/content/repositories/snapshots/")
+        name = "IntellectualSites"
+        url = uri("https://mvn.intellectualsites.com/content/groups/public/")
     }
 }
 
 dependencies {
-    implementation("com.intellectualsites.paster:Paster:1.0.1-SNAPSHOT")
+    implementation("com.intellectualsites.paster:Paster:1.0.2-SNAPSHOT")
 }
 ```
-
-- [Javadocs](https://ci.athion.net/job/Paster/javadoc/)
+You need to shade Paster into your software by either using maven shade or gradle shadow.

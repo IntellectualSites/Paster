@@ -4,9 +4,8 @@ plugins {
     `maven-publish`
 }
 
-configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = sourceCompatibility
+the<JavaPluginExtension>().toolchain {
+    languageVersion.set(JavaLanguageVersion.of(16))
 }
 
 group = "com.intellectualsites.paster"
@@ -22,7 +21,7 @@ repositories {
     mavenCentral()
 }
 
-val javadocDir = rootDir.resolve("docs").resolve("javadoc").resolve(project.name)
+val javadocDir = rootDir.resolve("docs").resolve("javadoc")
 tasks {
     val assembleTargetDir = create<Copy>("assembleTargetDirectory") {
         destinationDir = rootDir.resolve("target")
@@ -47,6 +46,7 @@ tasks {
             options.compilerArgs.add("-Xlint:$disabledLint")
         options.isDeprecation = true
         options.encoding = "UTF-8"
+        options.release.set(11)
     }
 
     javadoc {
