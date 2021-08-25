@@ -1,3 +1,27 @@
+/*
+ *                      _____          _
+ *                     |  __ \        | |
+ *                     | |__) |_ _ ___| |_ ___ _ __
+ *                     |  ___/ _` / __| __/ _ \ '__|
+ *                     | |  | (_| \__ \ ||  __/ |
+ *                     |_|   \__,_|___/\__\___|_|
+ *
+ *      Paste service used to submit data to the IncendoPasteViewer
+ *                Copyright (C) 2021 IntellectualSites
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.intellectualsites.paster;
 
 import com.google.common.base.Charsets;
@@ -28,6 +52,7 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class IncendoPaster {
+
     /**
      * Upload service URL
      */
@@ -36,7 +61,7 @@ public class IncendoPaster {
      * Valid paste applications
      */
     public static final Collection<String> VALID_APPLICATIONS =
-        Arrays.asList("plotsquared", "fastasyncworldedit", "incendopermissions", "kvantum");
+            Arrays.asList("plotsquared", "fastasyncworldedit", "incendopermissions", "kvantum");
 
     private final Collection<PasteFile> files = new ArrayList<>();
     private final String pasteApplication;
@@ -65,7 +90,8 @@ public class IncendoPaster {
      * @return URL of the paste
      * @throws IOException if upload failed
      */
-    public static String debugPaste(@Nonnull File logFile, @Nullable String debugInfo, @Nullable File... extraFiles) throws IOException {
+    public static String debugPaste(@Nonnull File logFile, @Nullable String debugInfo, @Nullable File... extraFiles) throws
+            IOException {
         return debugPaste(logFile, debugInfo, extraFiles == null ? null : Arrays.asList(extraFiles));
     }
 
@@ -79,20 +105,20 @@ public class IncendoPaster {
      * @throws IOException if upload failed
      */
     public static String debugPaste(@Nonnull File logFile, @Nullable String debugInfo, @Nullable List<File> extraFiles)
-        throws IOException {
+            throws IOException {
         final IncendoPaster incendoPaster = new IncendoPaster("fastasyncworldedit");
 
         StringBuilder b = new StringBuilder();
         b.append(
-            "# Welcome to this paste\n# It is meant to provide us at IntellectualSites with better information about your "
-                + "problem\n");
+                "# Welcome to this paste\n# It is meant to provide us at IntellectualSites with better information about your "
+                        + "problem\n");
         b.append("\n# Server Information\n");
         b.append(debugInfo);
         b.append("\n# YAY! Now, let's see what we can find in your JVM\n");
         Runtime runtime = Runtime.getRuntime();
         RuntimeMXBean rb = ManagementFactory.getRuntimeMXBean();
         b.append("Uptime: ").append(TimeUnit.MINUTES.convert(rb.getUptime(), TimeUnit.MILLISECONDS)).append(" minutes")
-            .append('\n');
+                .append('\n');
         b.append("JVM Flags: ").append(rb.getInputArguments()).append('\n');
         b.append("Free Memory: ").append(runtime.freeMemory() / 1024 / 1024).append(" MB").append('\n');
         b.append("Max Memory: ").append(runtime.maxMemory() / 1024 / 1024).append(" MB").append('\n');
@@ -155,8 +181,9 @@ public class IncendoPaster {
         String contentStr = content.toString();
         if (cleanIPs) {
             contentStr = contentStr.replaceAll(
-                "\\b(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\.(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\.(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\.(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\b",
-                "*");
+                    "\\b(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\.(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\.(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\.(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\b",
+                    "*"
+            );
         }
         return contentStr;
     }
@@ -175,7 +202,7 @@ public class IncendoPaster {
     }
 
     public void addFile(File file, @Nullable String name) throws IOException {
-        String fileName =  name != null ? name : file.getName();
+        String fileName = name != null ? name : file.getName();
         boolean cleanIPS = fileName.endsWith(".log") || fileName.endsWith(".txt") || !fileName.contains(".");
         addFile(new PasteFile(fileName, readFile(file, cleanIPS)));
     }
@@ -219,7 +246,7 @@ public class IncendoPaster {
         while (fileIterator.hasNext()) {
             final PasteFile file = fileIterator.next();
             builder.append("\"file-").append(file.getFileName()).append("\": \"")
-                .append(file.getContent().replaceAll("\"", "\\\\\"")).append("\"");
+                    .append(file.getContent().replaceAll("\"", "\\\\\"")).append("\"");
             if (fileIterator.hasNext()) {
                 builder.append(",\n");
             }
@@ -250,12 +277,13 @@ public class IncendoPaster {
         }
         if (!httpURLConnection.getResponseMessage().contains("OK")) {
             throw new IllegalStateException(String
-                .format("Server returned status: %d %s", httpURLConnection.getResponseCode(),
-                    httpURLConnection.getResponseMessage()));
+                    .format("Server returned status: %d %s", httpURLConnection.getResponseCode(),
+                            httpURLConnection.getResponseMessage()
+                    ));
         }
         final StringBuilder input = new StringBuilder();
         try (final BufferedReader inputStream = new BufferedReader(
-            new InputStreamReader(httpURLConnection.getInputStream()))) {
+                new InputStreamReader(httpURLConnection.getInputStream()))) {
             String line;
             while ((line = inputStream.readLine()) != null) {
                 input.append(line).append("\n");
@@ -307,5 +335,7 @@ public class IncendoPaster {
         public String getContent() {
             return this.content;
         }
+
     }
+
 }

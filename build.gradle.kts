@@ -1,16 +1,23 @@
+import org.cadixdev.gradle.licenser.LicenseExtension
+
 plugins {
     java
     `java-library`
     `maven-publish`
+
+    id("org.cadixdev.licenser") version "0.6.1"
 }
 
-configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = sourceCompatibility
+the<JavaPluginExtension>().toolchain {
+    languageVersion.set(JavaLanguageVersion.of(16))
 }
 
 group = "com.intellectualsites.paster"
-version = "1.0.2-SNAPSHOT"
+version = "1.1.0"
+
+repositories {
+    mavenCentral()
+}
 
 dependencies {
     compileOnlyApi("com.google.code.gson:gson:2.8.0")
@@ -18,11 +25,12 @@ dependencies {
     compileOnlyApi("com.google.code.findbugs:jsr305:3.0.2")
 }
 
-repositories {
-    mavenCentral()
+configure<LicenseExtension> {
+    header.set(resources.text.fromFile(file("HEADER.txt")))
+    newLine.set(false)
 }
 
-val javadocDir = rootDir.resolve("docs").resolve("javadoc").resolve(project.name)
+val javadocDir = rootDir.resolve("docs").resolve("javadoc")
 tasks {
     val assembleTargetDir = create<Copy>("assembleTargetDirectory") {
         destinationDir = rootDir.resolve("target")
@@ -47,6 +55,7 @@ tasks {
             options.compilerArgs.add("-Xlint:$disabledLint")
         options.isDeprecation = true
         options.encoding = "UTF-8"
+        options.release.set(11)
     }
 
     javadoc {
@@ -57,6 +66,7 @@ tasks {
                 "implSpec:a:Implementation Requirements:",
                 "implNote:a:Implementation Note:"
         )
+        opt.links("https://javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.2/")
         opt.destinationDirectory = javadocDir
     }
 }
@@ -72,6 +82,14 @@ publishing {
             from(components["java"])
 
             pom {
+
+                licenses {
+                    license {
+                        name.set("GNU General Public License, Version 3.0")
+                        url.set("https://www.gnu.org/licenses/gpl-3.0.html")
+                        distribution.set("repo")
+                    }
+                }
 
                 developers {
                     developer {
