@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
     compileOnlyApi("com.google.code.gson:gson:2.8.0")
-    compileOnlyApi("com.google.guava:guava:21.0")
+    compileOnlyApi("com.google.guava:guava:30.1.1-jre")
     compileOnlyApi("com.google.code.findbugs:jsr305:3.0.2")
 }
 
