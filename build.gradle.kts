@@ -14,7 +14,7 @@ the<JavaPluginExtension>().toolchain {
 }
 
 group = "com.intellectualsites.paster"
-version = "1.1.1"
+version = "1.1.2"
 var versuffix by extra("SNAPSHOT")
 version = if (!project.hasProperty("release")) {
     String.format("%s-%s", project.version, versuffix)
