@@ -3,17 +3,15 @@
 Used in the projects [FastAsyncWorldEdit](https://github.com/IntellectualSites/FastAsyncWorldEdit) and [PlotSquared](https://github.com/IntellectualSites/PlotSquared) as "debugpaste".
 
 ### Add the paster to your project:
+Releases are published to the central repository, snapshots are published to S01 OSS Sonatype.
 
 ```kotlin
 repositories {
-    maven {
-        name = "IntellectualSites"
-        url = uri("https://mvn.intellectualsites.com/content/groups/public/")
-    }
+    mavenCentral()
 }
 
 dependencies {
-    implementation("com.intellectualsites.paster:Paster:1.1.0")
+    implementation("com.intellectualsites.paster:Paster:1.1.1")
 }
 ```
 You need to shade Paster into your software by either using maven shade or gradle shadow.

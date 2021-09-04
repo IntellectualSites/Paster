@@ -4,6 +4,7 @@ plugins {
     java
     `java-library`
     `maven-publish`
+    signing
 
     id("org.cadixdev.licenser") version "0.6.1"
 }
@@ -13,7 +14,13 @@ the<JavaPluginExtension>().toolchain {
 }
 
 group = "com.intellectualsites.paster"
-version = "1.1.1-SNAPSHOT"
+version = "1.1.1"
+var versuffix by extra("SNAPSHOT")
+version = if (!project.hasProperty("release")) {
+    String.format("%s-%s", project.version, versuffix)
+} else {
+    String.format(project.version as String)
+}
 
 repositories {
     mavenCentral()
@@ -30,23 +37,7 @@ configure<LicenseExtension> {
     newLine.set(false)
 }
 
-val javadocDir = rootDir.resolve("docs").resolve("javadoc")
 tasks {
-    val assembleTargetDir = create<Copy>("assembleTargetDirectory") {
-        destinationDir = rootDir.resolve("target")
-        into(destinationDir)
-        from(withType<Jar>())
-    }
-    named("build") {
-        dependsOn(assembleTargetDir)
-    }
-
-    named<Delete>("clean") {
-        doFirst {
-            rootDir.resolve("target").deleteRecursively()
-            javadocDir.deleteRecursively()
-        }
-    }
 
     compileJava {
         options.compilerArgs.addAll(arrayOf("-Xmaxerrs", "1000"))
@@ -59,6 +50,7 @@ tasks {
     }
 
     javadoc {
+        title = project.name + " " + project.version
         val opt = options as StandardJavadocDocletOptions
         opt.addStringOption("Xdoclint:none", "-quiet")
         opt.tags(
@@ -67,7 +59,6 @@ tasks {
                 "implNote:a:Implementation Note:"
         )
         opt.links("https://javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.2/")
-        opt.destinationDirectory = javadocDir
     }
 }
 
@@ -76,12 +67,23 @@ java {
     withJavadocJar()
 }
 
+signing {
+    if (!version.toString().endsWith("-SNAPSHOT")) {
+        signing.isRequired
+        sign(publishing.publications)
+    }
+}
+
 publishing {
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
 
             pom {
+
+                name.set(project.name + " " + project.version)
+                description.set("A library focused on collecting and assembling debug data provided from the jvm as json.")
+                url.set("https://github.com/IntellectualSites/Paster")
 
                 licenses {
                     license {
@@ -115,6 +117,11 @@ publishing {
                     connection.set("scm:https://IntellectualSites@github.com/IntellectualSites/Paster.git")
                     developerConnection.set("scm:git://github.com/IntellectualSites/Paster.git")
                 }
+
+                issueManagement{
+                    system.set("GitHub")
+                    url.set("https://github.com/IntellectualSites/Paster/issues")
+                }
             }
         }
     }
@@ -125,11 +132,11 @@ publishing {
         val nexusPassword: String? by project
         if (nexusUsername != null && nexusPassword != null) {
             maven {
-                val repositoryUrl = "https://mvn.intellectualsites.com/content/repositories/releases/"
-                val snapshotRepositoryUrl = "https://mvn.intellectualsites.com/content/repositories/snapshots/"
+                val releasesRepositoryUrl  = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+                val snapshotRepositoryUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
                 url = uri(
                         if (version.toString().endsWith("-SNAPSHOT")) snapshotRepositoryUrl
-                        else repositoryUrl
+                        else releasesRepositoryUrl
                 )
 
                 credentials {
