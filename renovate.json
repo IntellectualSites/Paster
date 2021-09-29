@@ -3,5 +3,5 @@
     "config:base",
     ":disableDependencyDashboard"
   ],
-  "ignoreDeps": ["guava", "gson"]
+  "ignoreDeps": ["guava", "com.google.guava:guava", "gson"]
 }
