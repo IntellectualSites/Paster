@@ -1,4 +1,5 @@
 import org.cadixdev.gradle.licenser.LicenseExtension
+import java.net.URI
 
 plugins {
     java
@@ -7,20 +8,26 @@ plugins {
     signing
 
     id("org.cadixdev.licenser") version "0.6.1"
+    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+
+    idea
+    eclipse
 }
 
-the<JavaPluginExtension>().toolchain {
-    languageVersion.set(JavaLanguageVersion.of(16))
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+}
+
+tasks.compileJava.configure {
+    options.release.set(8)
+}
+
+configurations.all {
+    attributes.attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 17)
 }
 
 group = "com.intellectualsites.paster"
-version = "1.1.2"
-var versuffix by extra("SNAPSHOT")
-version = if (!project.hasProperty("release")) {
-    String.format("%s-%s", project.version, versuffix)
-} else {
-    String.format(project.version as String)
-}
+version = "1.1.2-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -69,6 +76,9 @@ java {
 
 signing {
     if (!version.toString().endsWith("-SNAPSHOT")) {
+        val signingKey: String? by project
+        val signingPassword: String? by project
+        useInMemoryPgpKeys(signingKey, signingPassword)
         signing.isRequired
         sign(publishing.publications)
     }
@@ -97,18 +107,23 @@ publishing {
                     developer {
                         id.set("Sauilitired")
                         name.set("Alexander Söderberg")
+                        organization.set("IntellectualSites")
                     }
                     developer {
                         id.set("NotMyFault")
                         name.set("NotMyFault")
+                        organization.set("IntellectualSites")
+                        email.set("contact@notmyfault.dev")
                     }
                     developer {
                         id.set("SirYwell")
                         name.set("Hannes Greule")
+                        organization.set("IntellectualSites")
                     }
                     developer {
                         id.set("dordsor21")
                         name.set("dordsor21")
+                        organization.set("IntellectualSites")
                     }
                 }
 
@@ -125,27 +140,13 @@ publishing {
             }
         }
     }
+}
 
+nexusPublishing {
     repositories {
-        mavenLocal()
-        val nexusUsername: String? by project
-        val nexusPassword: String? by project
-        if (nexusUsername != null && nexusPassword != null) {
-            maven {
-                val releasesRepositoryUrl  = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-                val snapshotRepositoryUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-                url = uri(
-                        if (version.toString().endsWith("-SNAPSHOT")) snapshotRepositoryUrl
-                        else releasesRepositoryUrl
-                )
-
-                credentials {
-                    username = nexusUsername
-                    password = nexusPassword
-                }
-            }
-        } else {
-            logger.warn("No nexus repository is added; nexusUsername or nexusPassword is null.")
+        sonatype {
+            nexusUrl.set(URI.create("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(URI.create("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
         }
     }
 }
