@@ -19,7 +19,7 @@ java {
 }
 
 group = "com.intellectualsites.paster"
-version = "1.1.2"
+version = "1.1.3-SNAPSHOT"
 
 repositories {
     mavenCentral()
