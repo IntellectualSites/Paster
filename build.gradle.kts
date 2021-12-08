@@ -7,8 +7,8 @@ plugins {
     `maven-publish`
     signing
 
-    id("org.cadixdev.licenser") version "0.6.1"
-    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+    alias(libs.plugins.licenser)
+    alias(libs.plugins.nexus)
 
     idea
     eclipse
@@ -18,25 +18,17 @@ java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
 
-tasks.compileJava.configure {
-    options.release.set(8)
-}
-
-configurations.all {
-    attributes.attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 17)
-}
-
 group = "com.intellectualsites.paster"
-version = "1.1.2-SNAPSHOT"
+version = "1.1.2"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compileOnlyApi("com.google.code.gson:gson:2.8.0")
-    compileOnlyApi("com.google.guava:guava:21.0")
-    compileOnlyApi("com.google.code.findbugs:jsr305:3.0.2")
+    compileOnly(libs.gson)
+    compileOnly(libs.guava)
+    compileOnly(libs.findbugs)
 }
 
 configure<LicenseExtension> {
@@ -53,7 +45,7 @@ tasks {
             options.compilerArgs.add("-Xlint:$disabledLint")
         options.isDeprecation = true
         options.encoding = "UTF-8"
-        options.release.set(11)
+        options.release.set(17)
     }
 
     javadoc {

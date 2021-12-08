@@ -110,8 +110,10 @@ public class IncendoPaster {
 
         StringBuilder b = new StringBuilder();
         b.append(
-                "# Welcome to this paste\n# It is meant to provide us at IntellectualSites with better information about your "
-                        + "problem\n");
+                """
+                        # Welcome to this paste
+                        # It is meant to provide us at IntellectualSites with better information about your problem
+                        """);
         b.append("\n# Server Information\n");
         b.append(debugInfo);
         b.append("\n# YAY! Now, let's see what we can find in your JVM\n");
@@ -156,7 +158,7 @@ public class IncendoPaster {
         } catch (Throwable throwable) {
             throw new IOException(String.format("Failed to upload files: %s", throwable.getMessage()), throwable);
         }
-        final JsonObject jsonObject = new JsonParser().parse(rawResponse).getAsJsonObject();
+        final JsonObject jsonObject = JsonParser.parseString(rawResponse).getAsJsonObject();
 
         if (jsonObject.has("created")) {
             final String pasteId = jsonObject.get("paste_id").getAsString();

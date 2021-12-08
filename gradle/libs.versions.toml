@@ -1,0 +1,23 @@
+[versions]
+# Minecraft expectations
+gson = "2.8.8" # Version set by Minecraft
+guava = "31.0.1-jre"
+
+# Annotations
+findbugs = "3.0.2"
+
+# Gradle plugins
+licenser = "0.6.1"
+nexus = "1.1.0"
+
+[libraries]
+# Minecraft expectations
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
+
+# Annotations
+findbugs = { group = "com.google.code.findbugs", name = "jsr305", version.ref = "findbugs" }
+
+[plugins]
+licenser = { id = "org.cadixdev.licenser", version.ref = "licenser" }
+nexus = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "nexus" }
