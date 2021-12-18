@@ -27,7 +27,7 @@ configurations.all {
 }
 
 group = "com.intellectualsites.paster"
-version = "1.1.3"
+version = "1.1.4-SNAPSHOT"
 
 repositories {
     mavenCentral()
