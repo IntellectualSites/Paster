@@ -1,7 +1,7 @@
 [versions]
 # Minecraft expectations
 gson = "2.8.8" # Version set by Minecraft
-guava = "31.0.1-jre"
+guava = "31.0.1-jre" # Version set by Minecraft
 
 # Annotations
 findbugs = "3.0.2"

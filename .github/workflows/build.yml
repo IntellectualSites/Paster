@@ -1,6 +1,6 @@
 name: build
 
-on: [pull_request, push]
+on: [ pull_request, push ]
 
 jobs:
   build:
@@ -8,8 +8,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2.4.0
-      - name : Validate Gradle Wrapper
-        uses : gradle/wrapper-validation-action@v1.0.4
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1.0.4
       - name: Setup Java
         uses: actions/setup-java@v2.4.0
         with:
@@ -17,11 +17,11 @@ jobs:
           java-version: 17
       - name: Clean Build
         run: ./gradlew clean build
-      - name : Archive Artifacts
-        uses : actions/upload-artifact@v2.3.0
-        with :
-          name : Paster-SNAPSHOT
-          path : build/libs/*.jar
+      - name: Archive Artifacts
+        uses: actions/upload-artifact@v2.3.0
+        with:
+          name: Paster-SNAPSHOT
+          path: build/libs/*.jar
       - name: Determine release status
         if: ${{ runner.os == 'Linux' }}
         run: |
@@ -33,14 +33,14 @@ jobs:
       - name: Publish Release
         if: ${{ runner.os == 'Linux' && env.STATUS == 'release' && github.event_name == 'push' && github.ref == 'refs/heads/main'}}
         run: ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository
-        env :
-          ORG_GRADLE_PROJECT_sonatypeUsername : ${{ secrets.SONATYPE_USERNAME }}
-          ORG_GRADLE_PROJECT_sonatypePassword : ${{ secrets.SONATYPE_PASSWORD }}
-          ORG_GRADLE_PROJECT_signingKey : ${{ secrets.SIGNING_KEY }}
-          ORG_GRADLE_PROJECT_signingPassword : ${{ secrets.SIGNING_PASSWORD }}
-      - name : Publish Snapshot
-        if : ${{ runner.os == 'Linux' && env.STATUS != 'release' && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-        run : ./gradlew publishToSonatype
-        env :
-          ORG_GRADLE_PROJECT_sonatypeUsername : ${{ secrets.SONATYPE_USERNAME }}
-          ORG_GRADLE_PROJECT_sonatypePassword : ${{ secrets.SONATYPE_PASSWORD }}
+        env:
+          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
+          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASSWORD }}
+      - name: Publish Snapshot
+        if: ${{ runner.os == 'Linux' && env.STATUS != 'release' && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        run: ./gradlew publishToSonatype
+        env:
+          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
+          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}

@@ -110,10 +110,8 @@ public class IncendoPaster {
 
         StringBuilder b = new StringBuilder();
         b.append(
-                """
-                        # Welcome to this paste
-                        # It is meant to provide us at IntellectualSites with better information about your problem
-                        """);
+                "# Welcome to this paste\n# It is meant to provide us at IntellectualSites with better information about your "
+                        + "problem\n");
         b.append("\n# Server Information\n");
         b.append(debugInfo);
         b.append("\n# YAY! Now, let's see what we can find in your JVM\n");

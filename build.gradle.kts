@@ -18,8 +18,16 @@ java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
 
+tasks.compileJava.configure {
+    options.release.set(11)
+}
+
+configurations.all {
+    attributes.attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 17)
+}
+
 group = "com.intellectualsites.paster"
-version = "1.1.3-SNAPSHOT"
+version = "1.1.3"
 
 repositories {
     mavenCentral()
@@ -45,7 +53,7 @@ tasks {
             options.compilerArgs.add("-Xlint:$disabledLint")
         options.isDeprecation = true
         options.encoding = "UTF-8"
-        options.release.set(17)
+        options.release.set(11)
     }
 
     javadoc {
