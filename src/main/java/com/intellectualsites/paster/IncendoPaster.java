@@ -51,6 +51,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings("unused")
 public class IncendoPaster {
 
     /**
@@ -156,7 +157,7 @@ public class IncendoPaster {
         } catch (Throwable throwable) {
             throw new IOException(String.format("Failed to upload files: %s", throwable.getMessage()), throwable);
         }
-        final JsonObject jsonObject = JsonParser.parseString(rawResponse).getAsJsonObject();
+        final JsonObject jsonObject = new JsonParser().parse(rawResponse).getAsJsonObject();
 
         if (jsonObject.has("created")) {
             final String pasteId = jsonObject.get("paste_id").getAsString();
