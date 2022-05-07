@@ -111,7 +111,7 @@ publishing {
                     }
                     developer {
                         id.set("NotMyFault")
-                        name.set("NotMyFault")
+                        name.set("Alexander Brandes")
                         organization.set("IntellectualSites")
                         email.set("contact@notmyfault.dev")
                     }
