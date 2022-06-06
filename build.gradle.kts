@@ -34,8 +34,9 @@ repositories {
 }
 
 dependencies {
-    compileOnly(libs.gson)
-    compileOnly(libs.guava)
+    implementation(platform("com.intellectualsites.bom:bom-1.16.x:1.4"))
+    compileOnly("com.google.code.gson:gson")
+    compileOnly("com.google.guava:guava")
     compileOnly(libs.findbugs)
 }
 

@@ -1,8 +1,4 @@
 [versions]
-# Minecraft expectations
-gson = "2.8.0" # Version set by Minecraft 1.15.2
-guava = "21.0" # Version set by Minecraft
-
 # Annotations
 findbugs = "3.0.2"
 
@@ -11,10 +7,6 @@ licenser = "0.6.1"
 nexus = "1.1.0"
 
 [libraries]
-# Minecraft expectations
-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
-guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
-
 # Annotations
 findbugs = { group = "com.google.code.findbugs", name = "jsr305", version.ref = "findbugs" }
 
