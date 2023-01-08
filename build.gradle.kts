@@ -1,4 +1,4 @@
-import org.cadixdev.gradle.licenser.LicenseExtension
+import com.diffplug.gradle.spotless.SpotlessPlugin
 import java.net.URI
 
 plugins {
@@ -7,7 +7,7 @@ plugins {
     `maven-publish`
     signing
 
-    alias(libs.plugins.licenser)
+    alias(libs.plugins.spotless)
     alias(libs.plugins.nexus)
 
     idea
@@ -40,9 +40,11 @@ dependencies {
     compileOnly(libs.findbugs)
 }
 
-configure<LicenseExtension> {
-    header.set(resources.text.fromFile(file("HEADER.txt")))
-    newLine.set(false)
+spotless {
+    java {
+        licenseHeaderFile(rootProject.file("HEADER.txt"))
+        target("**/*.java")
+    }
 }
 
 tasks {
