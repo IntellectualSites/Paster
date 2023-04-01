@@ -3,7 +3,7 @@
 findbugs = "3.0.2"
 
 # Gradle plugins
-spotless = "6.16.0"
+spotless = "6.17.0"
 nexus = "1.2.0"
 
 [libraries]
