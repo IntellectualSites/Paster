@@ -34,7 +34,7 @@ repositories {
 }
 
 dependencies {
-    implementation(platform("com.intellectualsites.bom:bom-1.16.x:1.35"))
+    implementation(platform("com.intellectualsites.bom:bom-1.16.x:1.38"))
     compileOnly("com.google.code.gson:gson")
     compileOnly("com.google.guava:guava")
     compileOnly(libs.findbugs)
