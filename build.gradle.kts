@@ -111,6 +111,7 @@ publishing {
                         id.set("Sauilitired")
                         name.set("Alexander Söderberg")
                         organization.set("IntellectualSites")
+                        organizationUrl.set("https://github.com/IntellectualSites/")
                     }
                     developer {
                         id.set("NotMyFault")
@@ -122,18 +123,22 @@ publishing {
                         id.set("SirYwell")
                         name.set("Hannes Greule")
                         organization.set("IntellectualSites")
+                        organizationUrl.set("https://github.com/IntellectualSites/")
+
                     }
                     developer {
                         id.set("dordsor21")
                         name.set("dordsor21")
                         organization.set("IntellectualSites")
+                        organizationUrl.set("https://github.com/IntellectualSites/")
                     }
                 }
 
                 scm {
                     url.set("https://github.com/IntellectualSites/Paster")
-                    connection.set("scm:https://IntellectualSites@github.com/IntellectualSites/Paster.git")
-                    developerConnection.set("scm:git://github.com/IntellectualSites/Paster.git")
+                    connection.set("scm:git:https://github.com/IntellectualSites/Paster.git")
+                    developerConnection.set("scm:git:git@github.com:IntellectualSites/Paster.git")
+                    tag.set("${project.version}")
                 }
 
                 issueManagement{
