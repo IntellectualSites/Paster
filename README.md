@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.intellectualsites.paster:Paster:1.1.4")
+    implementation("com.intellectualsites.paster:Paster:VERSION")
 }
 ```
 You need to shade Paster into your software by either using maven shade or gradle shadow.

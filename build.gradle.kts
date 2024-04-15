@@ -69,6 +69,12 @@ tasks {
                 "implNote:a:Implementation Note:"
         )
         opt.links("https://javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.2/")
+        opt.noTimestamp()
+    }
+
+    withType<AbstractArchiveTask>().configureEach {
+        isPreserveFileTimestamps = false
+        isReproducibleFileOrder = true
     }
 }
 
@@ -78,7 +84,7 @@ java {
 }
 
 signing {
-    if (!version.toString().endsWith("-SNAPSHOT")) {
+    if (!project.hasProperty("skip.signing") && !version.toString().endsWith("-SNAPSHOT")) {
         val signingKey: String? by project
         val signingPassword: String? by project
         useInMemoryPgpKeys(signingKey, signingPassword)
@@ -124,7 +130,6 @@ publishing {
                         name.set("Hannes Greule")
                         organization.set("IntellectualSites")
                         organizationUrl.set("https://github.com/IntellectualSites/")
-
                     }
                     developer {
                         id.set("dordsor21")
