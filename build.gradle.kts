@@ -1,14 +1,14 @@
 import com.diffplug.gradle.spotless.SpotlessPlugin
+import com.vanniktech.maven.publish.SonatypeHost
 import java.net.URI
 
 plugins {
     java
     `java-library`
-    `maven-publish`
     signing
 
     alias(libs.plugins.spotless)
-    alias(libs.plugins.nexus)
+    alias(libs.plugins.publish)
 
     idea
     eclipse
@@ -49,25 +49,8 @@ spotless {
 
 tasks {
 
-    compileJava {
-        options.compilerArgs.addAll(arrayOf("-Xmaxerrs", "1000"))
-        options.compilerArgs.add("-Xlint:all")
-        for (disabledLint in arrayOf("processing", "path", "fallthrough", "serial"))
-            options.compilerArgs.add("-Xlint:$disabledLint")
-        options.isDeprecation = true
-        options.encoding = "UTF-8"
-        options.release.set(11)
-    }
-
     javadoc {
-        title = project.name + " " + project.version
         val opt = options as StandardJavadocDocletOptions
-        opt.addStringOption("Xdoclint:none", "-quiet")
-        opt.tags(
-                "apiNote:a:API Note:",
-                "implSpec:a:Implementation Requirements:",
-                "implNote:a:Implementation Note:"
-        )
         opt.links("https://javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.2/")
         opt.noTimestamp()
     }
@@ -76,11 +59,6 @@ tasks {
         isPreserveFileTimestamps = false
         isReproducibleFileOrder = true
     }
-}
-
-java {
-    withSourcesJar()
-    withJavadocJar()
 }
 
 signing {
@@ -93,73 +71,66 @@ signing {
     }
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            from(components["java"])
+mavenPublishing {
+    coordinates(
+            groupId = "$group",
+            artifactId = project.name,
+            version = "${project.version}",
+    )
 
-            pom {
+    pom {
 
-                name.set(project.name + " " + project.version)
-                description.set("A library focused on collecting and assembling debug data provided from the jvm as json.")
-                url.set("https://github.com/IntellectualSites/Paster")
+        name.set(project.name)
+        description.set("A library focused on collecting and assembling debug data provided from the jvm as json.")
+        url.set("https://github.com/IntellectualSites/Paster")
 
-                licenses {
-                    license {
-                        name.set("GNU General Public License, Version 3.0")
-                        url.set("https://www.gnu.org/licenses/gpl-3.0.html")
-                        distribution.set("repo")
-                    }
-                }
-
-                developers {
-                    developer {
-                        id.set("Sauilitired")
-                        name.set("Alexander Söderberg")
-                        organization.set("IntellectualSites")
-                        organizationUrl.set("https://github.com/IntellectualSites/")
-                    }
-                    developer {
-                        id.set("NotMyFault")
-                        name.set("Alexander Brandes")
-                        organization.set("IntellectualSites")
-                        email.set("contact(at)notmyfault.dev")
-                    }
-                    developer {
-                        id.set("SirYwell")
-                        name.set("Hannes Greule")
-                        organization.set("IntellectualSites")
-                        organizationUrl.set("https://github.com/IntellectualSites/")
-                    }
-                    developer {
-                        id.set("dordsor21")
-                        name.set("dordsor21")
-                        organization.set("IntellectualSites")
-                        organizationUrl.set("https://github.com/IntellectualSites/")
-                    }
-                }
-
-                scm {
-                    url.set("https://github.com/IntellectualSites/Paster")
-                    connection.set("scm:git:https://github.com/IntellectualSites/Paster.git")
-                    developerConnection.set("scm:git:git@github.com:IntellectualSites/Paster.git")
-                    tag.set("${project.version}")
-                }
-
-                issueManagement{
-                    system.set("GitHub")
-                    url.set("https://github.com/IntellectualSites/Paster/issues")
-                }
+        licenses {
+            license {
+                name.set("GNU General Public License, Version 3.0")
+                url.set("https://www.gnu.org/licenses/gpl-3.0.html")
+                distribution.set("repo")
             }
         }
-    }
-}
 
-nexusPublishing {
-    this.repositories {
-        sonatype {
-            nexusUrl.set(URI.create("https://s01.oss.sonatype.org/service/local/"))
-            snapshotRepositoryUrl.set(URI.create("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+        developers {
+            developer {
+                id.set("Sauilitired")
+                name.set("Alexander Söderberg")
+                organization.set("IntellectualSites")
+                organizationUrl.set("https://github.com/IntellectualSites/")
+            }
+            developer {
+                id.set("NotMyFault")
+                name.set("Alexander Brandes")
+                organization.set("IntellectualSites")
+                email.set("contact(at)notmyfault.dev")
+            }
+            developer {
+                id.set("SirYwell")
+                name.set("Hannes Greule")
+                organization.set("IntellectualSites")
+                organizationUrl.set("https://github.com/IntellectualSites/")
+            }
+            developer {
+                id.set("dordsor21")
+                name.set("dordsor21")
+                organization.set("IntellectualSites")
+                organizationUrl.set("https://github.com/IntellectualSites/")
+            }
         }
+
+        scm {
+            url.set("https://github.com/IntellectualSites/Paster")
+            connection.set("scm:git:https://github.com/IntellectualSites/Paster.git")
+            developerConnection.set("scm:git:git@github.com:IntellectualSites/Paster.git")
+            tag.set("${project.version}")
+        }
+
+        issueManagement{
+            system.set("GitHub")
+            url.set("https://github.com/IntellectualSites/Paster/issues")
+        }
+
+        publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
     }
 }

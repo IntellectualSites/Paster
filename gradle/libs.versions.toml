@@ -4,7 +4,7 @@ findbugs = "3.0.2"
 
 # Gradle plugins
 spotless = "7.0.3"
-nexus = "2.0.0"
+publish = "0.31.0"
 
 [libraries]
 # Annotations
@@ -12,4 +12,4 @@ findbugs = { group = "com.google.code.findbugs", name = "jsr305", version.ref = 
 
 [plugins]
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
-nexus = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "nexus" }
+publish = { id = "com.vanniktech.maven.publish", version.ref = "publish" }
