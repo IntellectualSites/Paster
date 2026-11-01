@@ -3,7 +3,7 @@
 findbugs = "3.0.2"
 
 # Gradle plugins
-spotless = "8.10.3"
+spotless = "8.10.4"
 publish = "0.33.0"
 
 [libraries]
